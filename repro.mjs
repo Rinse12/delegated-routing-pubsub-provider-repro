@@ -227,12 +227,36 @@ async function main() {
     });
 
     console.log("\n[resolver] attempting publish without manual discovery");
-    await publishWithoutPreconnect({ helia: resolver, pubsubTopic });
+    try {
+      await publishWithoutPreconnect({ helia: resolver, pubsubTopic });
+    } catch (err) {
+      const name = err?.name ?? "Error";
+      const message = err?.message ?? String(err);
+      console.log(`[resolver] publish error: ${name} ${message}`);
+      if (err?.stack) {
+        console.log(`[resolver] publish stack:\n${err.stack}`);
+      }
+    }
 
     console.log("\n[resolver] attempting subscribe without manual discovery");
-    await subscribeWithoutPreconnect({ helia: resolver, pubsubTopic });
+    try {
+      await subscribeWithoutPreconnect({ helia: resolver, pubsubTopic });
+      const subscribersAfter =
+        resolver.libp2p.services.pubsub.getSubscribers(pubsubTopic);
+      console.log(
+        `[resolver] subscribers after subscribe: ${subscribersAfter.length}`
+      );
+    } catch (err) {
+      const name = err?.name ?? "Error";
+      const message = err?.message ?? String(err);
+      console.log(`[resolver] subscribe error: ${name} ${message}`);
+      if (err?.stack) {
+        console.log(`[resolver] subscribe stack:\n${err.stack}`);
+      }
+    }
 
     await delay(1500);
+    await delay(5000);
     const resolverConnections = resolver.libp2p.getConnections();
     console.log(
       `[resolver] connections after pubsub attempt: ${resolverConnections.length}`
