@@ -1,0 +1,23 @@
+{
+  "name": "delegated-routing-pubsub-repro",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node repro.mjs"
+  },
+  "engines": {
+    "node": ">=20.18.0"
+  },
+  "dependencies": {
+    "@helia/block-brokers": "5.0.13",
+    "@helia/delegated-routing-v1-http-api-client": "5.1.4",
+    "@libp2p/fetch": "4.0.9",
+    "@libp2p/gossipsub": "15.0.11",
+    "@libp2p/identify": "4.0.9",
+    "blockstore-core": "6.1.1",
+    "helia": "6.0.14",
+    "js-sha256": "0.11.1",
+    "multiformats": "13.4.1"
+  }
+}
